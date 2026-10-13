@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festive Puja Offers Directory</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Hide scrollbar for clean horizontal scrolling */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-orange-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-red-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center cursor-pointer group" onclick="showListing()">
+                <i class="fa-solid fa-om text-red-600 text-2xl mr-2 group-hover:scale-110 transition-transform"></i>
+                <span class="font-bold text-xl tracking-tight text-gray-900"><span class="text-red-600">Puja</span>Offers</span>
+            </div>
+            <button class="bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-700 hover:to-amber-600 text-white px-5 py-2.5 rounded-full font-medium transition duration-200 text-sm shadow-md flex items-center">
+                <i class="fa-solid fa-bullhorn mr-2"></i> List Ad
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto pb-12">
+        
+        <!-- Top Section (Visible only in Listing View) -->
+        <div id="listing-header">
+            <!-- Banner with Search -->
+            <div class="relative bg-gradient-to-r from-red-700 via-red-600 to-amber-500 text-white py-10 px-4 sm:px-6 lg:px-8 text-center overflow-hidden">
+                <!-- Festive background accents -->
+                <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" style="background-image: radial-gradient(circle, #ffffff 2px, transparent 2px); background-size: 20px 20px;"></div>
+                
+                <div class="relative z-10 max-w-2xl mx-auto">
+                    <h1 class="text-3xl sm:text-4xl font-bold mb-2 drop-shadow-md">Festive Deals & Offers</h1>
+                    <p class="mb-6 text-red-100 text-sm sm:text-base">Discover the best local business specials this Puja season.</p>
+                    
+                    <div class="relative flex items-center w-full bg-white rounded-full shadow-lg overflow-hidden p-1 border-2 border-amber-200 focus-within:border-amber-400 transition-colors">
+                        <i class="fa-solid fa-location-dot text-red-500 pl-4"></i>
+                        <input type="text" placeholder="Search by location (e.g. Park Street, ZIP)..." class="w-full py-3 px-4 text-gray-700 outline-none focus:ring-0 placeholder-gray-400">
+                        <button class="bg-gradient-to-r from-red-600 to-red-500 text-white rounded-full px-6 py-2.5 hover:from-red-700 hover:to-red-600 transition font-medium shadow-sm">Search</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Tab List -->
+            <div class="bg-white border-b border-red-100 px-4 sm:px-6 lg:px-8 shadow-sm">
+                <div class="flex overflow-x-auto hide-scrollbar py-4 gap-3 snap-x">
+                    <button class="snap-start whitespace-nowrap bg-red-50 text-red-700 border border-red-200 px-5 py-2 rounded-full font-medium text-sm transition shadow-sm">All Offers</button>
+                    <button class="snap-start whitespace-nowrap bg-white text-gray-600 border border-gray-200 hover:bg-orange-50 hover:text-red-600 px-5 py-2 rounded-full font-medium text-sm transition">Clothing & Apparel</button>
+                    <button class="snap-start whitespace-nowrap bg-white text-gray-600 border border-gray-200 hover:bg-orange-50 hover:text-red-600 px-5 py-2 rounded-full font-medium text-sm transition">Sweets & Dining</button>
+                    <button class="snap-start whitespace-nowrap bg-white text-gray-600 border border-gray-200 hover:bg-orange-50 hover:text-red-600 px-5 py-2 rounded-full font-medium text-sm transition">Jewelry</button>
+                    <button class="snap-start whitespace-nowrap bg-white text-gray-600 border border-gray-200 hover:bg-orange-50 hover:text-red-600 px-5 py-2 rounded-full font-medium text-sm transition">Electronics</button>
+                    <button class="snap-start whitespace-nowrap bg-white text-gray-600 border border-gray-200 hover:bg-orange-50 hover:text-red-600 px-5 py-2 rounded-full font-medium text-sm transition">Home Decor</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listing View -->
+        <div id="listing-view" class="px-4 sm:px-6 lg:px-8 mt-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="cards-container">
+                <!-- Cards will be injected by JS -->
+            </div>
+        </div>
+
+        <!-- Details View (Hidden by default) -->
+        <div id="details-view" class="px-4 sm:px-6 lg:px-8 mt-8 hidden">
+            <div class="max-w-4xl mx-auto">
+                <button onclick="showListing()" class="mb-6 text-red-600 hover:text-red-800 font-medium flex items-center transition bg-white px-4 py-2 rounded-full shadow-sm border border-red-100">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Back to offers
+                </button>
+                
+                <div id="details-container" class="bg-white rounded-2xl shadow-lg overflow-hidden border border-red-50">
+                    <!-- Detail content injected by JS -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Mock Data for the application featuring Festive Themes
+        const businesses = [
+            {
+                id: 1,
+                name: "Heritage Silks & Sarees",
+                address: "123 Market St, Gariahat",
+                logo: "https://placehold.co/100x100/dc2626/ffffff?text=HS",
+                images: ["https://placehold.co/600x400/fef2f2/991b1b?text=Flat+50%25+Off+on+Silks"],
+                links: { call: "#", whatsapp: "#", website: "#", direction: "#", facebook: "#", instagram: "#" }
+            },
+            {
+                id: 2,
+                name: "Mishti Mahal",
+                address: "456 Sweet Lane, North Avenue",
+                logo: "https://placehold.co/100x100/f59e0b/ffffff?text=MM",
+                images: [
+                    "https://placehold.co/600x400/fffbeb/b45309?text=Puja+Special+Thali",
+                    "https://placehold.co/600x400/fef3c7/b45309?text=Free+Gift+Box+with+Orders"
+                ],
+                links: { call: "#", whatsapp: "#", website: "#", direction: "#", facebook: "#", instagram: "#" }
+            },
+            {
+                id: 3,
+                name: "Gold & Diamond Emporium",
+                address: "789 Jewelers Hub, Bowbazar",
+                logo: "https://placehold.co/100x100/b45309/ffffff?text=GDE",
+                images: [
+                    "https://placehold.co/800x400/fef3c7/78350f?text=Zero+Making+Charges",
+                    "https://placehold.co/800x400/fde68a/78350f?text=Win+a+Gold+Coin"
+                ],
+                links: { call: "#", whatsapp: "#", website: "#", direction: "#", facebook: "#", instagram: "#" }
+            }
+        ];
+
+        // Render Action Buttons (Horizontal Scrollable with Icons + Titles)
+        function renderButtons(links) {
+            // Both listing and details use the same horizontal scroll logic for buttons now
+            const btnClass = "inline-flex items-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-full text-sm font-medium border border-gray-200 whitespace-nowrap snap-start hover:border-red-300 hover:text-red-600 hover:bg-red-50 transition shadow-sm";
+            
+            return `
+                <div class="flex overflow-x-auto hide-scrollbar gap-3 pb-1 snap-x">
+                    <a href="${links.call}" class="${btnClass}" title="Call">
+                        <i class="fa-solid fa-phone text-red-500"></i> Call
+                    </a>
+                    <a href="${links.whatsapp}" class="${btnClass}" title="WhatsApp">
+                        <i class="fa-brands fa-whatsapp text-green-500"></i> WhatsApp
+                    </a>
+                    <a href="${links.direction}" class="${btnClass}" title="Directions">
+                        <i class="fa-solid fa-map-location-dot text-amber-500"></i> Directions
+                    </a>
+                    <a href="${links.website}" class="${btnClass}" title="Website">
+                        <i class="fa-solid fa-globe text-blue-500"></i> Website
+                    </a>
+                    <a href="${links.facebook}" class="${btnClass}" title="Facebook">
+                        <i class="fa-brands fa-facebook-f text-blue-600"></i> Facebook
+                    </a>
+                    <a href="${links.instagram}" class="${btnClass}" title="Instagram">
+                        <i class="fa-brands fa-instagram text-pink-600"></i> Instagram
+                    </a>
+                </div>
+            `;
+        }
+
+        // Render Listing Cards
+        function renderListings() {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = businesses.map(b => {
+                
+                // Image handling: single = full width, multi = horizontal scroll
+                // Fixed height (h-56) and object-cover used here for listing view
+                const imagesHTML = b.images.length === 1 
+                    ? `<img src="${b.images[0]}" class="w-full h-56 object-cover cursor-pointer hover:opacity-90 transition" onclick="showDetails(${b.id})" alt="Offer">`
+                    : `<div class="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory h-56 w-full cursor-pointer bg-red-50" onclick="showDetails(${b.id})">
+                        ${b.images.map(img => `<img src="${img}" class="h-56 w-[85%] flex-shrink-0 object-cover snap-center border-r border-red-100 last:border-0" alt="Offer">`).join('')}
+                       </div>`;
+
+                return `
+                <div class="bg-white rounded-2xl shadow-sm border border-red-100 overflow-hidden hover:shadow-lg transition duration-300 flex flex-col group">
+                    <div class="p-4 flex items-center cursor-pointer" onclick="showDetails(${b.id})">
+                        <img src="${b.logo}" class="w-14 h-14 rounded-full border-2 border-amber-100 object-cover group-hover:border-amber-300 transition" alt="${b.name}">
+                        <div class="ml-4">
+                            <h3 class="font-bold text-gray-900 leading-tight text-lg group-hover:text-red-600 transition">${b.name}</h3>
+                            <p class="text-sm text-gray-500 mt-0.5"><i class="fa-solid fa-location-dot text-amber-500 mr-1.5"></i>${b.address}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full border-y border-red-50 bg-orange-50 relative">
+                        <!-- Decorative top edge -->
+                        <div class="absolute top-0 w-full h-1 bg-gradient-to-r from-red-500 to-amber-400 z-10 opacity-75"></div>
+                        ${imagesHTML}
+                    </div>
+                    
+                    <div class="p-4 mt-auto bg-gray-50/50">
+                        ${renderButtons(b.links)}
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // Render Detail View
+        function showDetails(id) {
+            const b = businesses.find(x => x.id === id);
+            if (!b) return;
+
+            document.getElementById('listing-header').classList.add('hidden');
+            document.getElementById('listing-view').classList.add('hidden');
+            document.getElementById('details-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            // In details view, images take full width and auto height instead of fixed height
+            const imagesHTML = b.images.map(img => 
+                `<img src="${img}" class="w-full h-auto object-cover rounded-xl border border-red-100 shadow-sm" alt="Offer">`
+            ).join('');
+
+            document.getElementById('details-container').innerHTML = `
+                <div class="p-6 md:p-8 flex items-center border-b border-red-50 bg-gradient-to-r from-white to-orange-50">
+                    <img src="${b.logo}" class="w-24 h-24 rounded-full border-4 border-white shadow-md object-cover ring-2 ring-red-100" alt="${b.name}">
+                    <div class="ml-6">
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900">${b.name}</h2>
+                        <p class="text-gray-600 mt-2 flex items-center"><i class="fa-solid fa-location-dot text-red-500 mr-2"></i>${b.address}</p>
+                    </div>
+                </div>
+                
+                <div class="p-6 md:px-8 md:py-5 bg-white border-b border-red-50">
+                     <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Connect & Visit</h3>
+                     ${renderButtons(b.links)}
+                </div>
+
+                <div class="p-6 md:p-8 flex flex-col gap-8 bg-orange-50/30">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-gift text-red-500 text-xl"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Festive Offers</h3>
+                    </div>
+                    ${imagesHTML}
+                </div>
+            `;
+        }
+
+        function showListing() {
+            document.getElementById('listing-header').classList.remove('hidden');
+            document.getElementById('listing-view').classList.remove('hidden');
+            document.getElementById('details-view').classList.add('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', renderListings);
+    </script>
+</body>
+</html>

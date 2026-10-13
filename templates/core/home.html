@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pujaoffer | Latest Deals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar { display: none; }
+            .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        }
+        @layer components {
+            .suggestion:hover, .suggestion.is-active {
+                @apply bg-sky-50 text-blue-700 font-medium;
+            }
+            .category-tab {
+                @apply inline-flex items-center whitespace-nowrap bg-white/95 text-gray-700 border border-white/70 hover:bg-sky-50 hover:text-blue-700 px-4 py-2 rounded-full font-medium text-sm transition cursor-pointer shadow-sm;
+            }
+            .category-tab:hover {
+                @apply border-sky-200;
+            }
+            .category-tab.is-active {
+                @apply bg-sky-50 text-blue-800 border-sky-200 shadow-md;
+            }
+            .category-tab.is-active .tab-close {
+                @apply flex items-center justify-center hover:bg-sky-100;
+            }
+        }
+    </style>
+</head>
+<body class="bg-sky-50 text-gray-800 antialiased m-0 font-sans text-sm md:text-base">
+    
+    <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-sky-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center">
+                {% comment %} <i class="fa-solid fa-om text-blue-600 text-2xl mr-2"></i> {% endcomment %}
+                <span class="font-black text-[26px] tracking-tight text-gray-900 italic"><span class="text-blue-700">Puja</span>offer</span>
+            </div>
+            <a class="inline-flex items-center gap-2 rounded-full bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm no-underline hover:bg-blue-800 transition" href="https://wa.me/917872843381?text=Hi%2C%20I%20want%20to%20advertise%20my%20business%20on%20Pujaoffer." target="_blank" rel="noopener">
+                <i class="fa-solid fa-bullhorn"></i>
+                Advertise
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto pb-12 w-full">
+        <form id="location-filter" method="get">
+            <section class="relative bg-gradient-to-r from-blue-800 via-blue-700 to-cyan-500 text-white py-5 px-3 text-center overflow-visible">
+                <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" style="background-image: radial-gradient(circle, #ffffff 2px, transparent 2px); background-size: 20px 20px;"></div>
+                <div class="relative z-20 max-w-2xl mx-auto">
+                    <h1 class="text-3xl sm:text-4xl font-bold mb-2 drop-shadow-md">Festive Deals & Offers</h1>
+                    <p class="mb-5 text-sky-100 text-sm sm:text-base">Discover the best local business specials this Puja season.</p>
+            
+                    <div class="relative flex items-center w-full bg-white rounded-full p-1 border-2 border-sky-200 focus-within:border-cyan-400 transition-colors" id="location-control">
+                        <i class="fa-solid fa-location-dot text-blue-600 pl-4"></i>
+                        <input
+                            class="w-full py-3 px-4 text-gray-700 outline-none focus:ring-0 placeholder-gray-400 rounded-full"
+                            id="location-search"
+                            type="search"
+                            autocomplete="off"
+                            placeholder="Search by location..."
+                            value="{% if selected_location %}{{ selected_location.name }}{% endif %}"
+                            aria-label="Search location"
+                            aria-controls="location-suggestions"
+                            aria-expanded="false"
+                        >
+                        <input type="hidden" name="location" id="location-value" value="{{ selected_location_slug }}">
+                        <button class="{% if not selected_location_slug %}hidden {% endif %}mr-1 grid h-9 w-9 shrink-0 place-items-center rounded-full text-gray-500 hover:bg-sky-50 hover:text-blue-700 transition" id="clear-location" type="button" aria-label="Clear location filter">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <span class="hidden sm:inline-flex bg-gradient-to-r from-blue-700 to-cyan-600 text-white rounded-full px-6 py-2.5 font-medium shadow-sm">Search</span>
+                        
+                        <ul class="absolute z-50 top-[calc(100%+8px)] left-0 right-0 max-h-60 p-2 overflow-y-auto list-none bg-white border border-sky-100 rounded-2xl shadow-lg text-left" id="location-suggestions" hidden>
+                            <li><button class="suggestion w-full min-h-[38px] px-3 py-2 border-0 rounded-xl bg-transparent text-gray-700 cursor-pointer text-left text-sm transition-colors" type="button" data-slug="" data-name="All locations"><i class="fa-regular fa-globe mr-2 text-gray-400"></i>All locations</button></li>
+                            {% for location in locations %}
+                                <li><button class="suggestion w-full min-h-[38px] px-3 py-2 border-0 rounded-xl bg-transparent text-gray-700 cursor-pointer text-left text-sm transition-colors" type="button" data-slug="{{ location.slug }}" data-name="{{ location.name }}">{{ location.name }}</button></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <span class="block text-sm font-medium text-sky-100 " id="filter-status"></span>
+
+                    <input type="hidden" name="category" id="category-value" value="{{ selected_category_slug }}">
+                    <div class="mt-4 flex gap-2 overflow-x-auto pb-1 scrollbar-hide" id="category-tabs" aria-label="Filter by category">
+                        {% if selected_category %}
+                            <button class="category-tab is-active" type="button" data-slug="{{ selected_category.slug }}">
+                                <span>{{ selected_category.name }}</span>
+                                <span class="tab-close hidden ml-1.5 h-4 w-4 rounded-full text-[10px]" data-action="clear-category" aria-label="Remove {{ selected_category.name }} filter"><i class="fa-solid fa-xmark"></i></span>
+                            </button>
+                        {% endif %}
+                        {% for category in categories %}
+                            {% if category.slug != selected_category_slug %}
+                                <button class="category-tab" type="button" data-slug="{{ category.slug }}">
+                                    <span>{{ category.name }}</span>
+                                    <span class="tab-close hidden ml-1.5 h-4 w-4 rounded-full text-[10px]" data-action="clear-category" aria-label="Remove {{ category.name }} filter"><i class="fa-solid fa-xmark"></i></span>
+                                </button>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </form>
+
+        <div class="px-3 mt-4" id="offer-list-wrap">
+            {% include 'core/partials/offer_list.html' %}
+        </div>
+    </main>
+
+    <script>
+        (function () {
+            function loadImage(image) { image.src = image.dataset.src; image.removeAttribute('data-src'); }
+            function setupLazyImages(root) {
+                const images = root.querySelectorAll('.lazy-image[data-src]');
+                if (!('IntersectionObserver' in window)) { images.forEach(loadImage); return; }
+                const observer = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (!entry.isIntersecting) return;
+                        loadImage(entry.target);
+                        observer.unobserve(entry.target);
+                    });
+                }, { rootMargin: '220px 0px' });
+                images.forEach(function (image) { observer.observe(image); });
+            }
+
+            const form = document.getElementById('location-filter');
+            const locationControl = document.getElementById('location-control');
+            const locationSearch = document.getElementById('location-search');
+            const locationValue = document.getElementById('location-value');
+            const clearLocation = document.getElementById('clear-location');
+            const categoryValue = document.getElementById('category-value');
+            const categoryTabs = document.getElementById('category-tabs');
+            const suggestions = document.getElementById('location-suggestions');
+            const suggestionButtons = Array.from(suggestions.querySelectorAll('.suggestion'));
+            const status = document.getElementById('filter-status');
+            const offerListWrap = document.getElementById('offer-list-wrap');
+
+            setupLazyImages(document);
+
+            function loadOffers(pushHistory) {
+                const params = new URLSearchParams(window.location.search);
+                if (locationValue.value) params.set('location', locationValue.value); else params.delete('location');
+                if (categoryValue.value) params.set('category', categoryValue.value); else params.delete('category');
+                
+                const query = params.toString();
+                const url = query ? `${window.location.pathname}?${query}` : window.location.pathname;
+
+                status.textContent = 'Updating...';
+                if (pushHistory) window.history.pushState({}, '', url);
+
+                fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                    .then(response => { if (!response.ok) throw new Error('Unable to load offers.'); return response.text(); })
+                    .then(html => {
+                        offerListWrap.innerHTML = html;
+                        setupLazyImages(offerListWrap);
+                        status.textContent = '';
+                    })
+                    .catch(() => { status.textContent = 'Failed. Press Enter.'; });
+            }
+
+            function showSuggestions() { suggestions.hidden = false; locationSearch.setAttribute('aria-expanded', 'true'); }
+            function hideSuggestions() { suggestions.hidden = true; locationSearch.setAttribute('aria-expanded', 'false'); }
+            function filterSuggestions() {
+                const query = locationSearch.value.trim().toLowerCase();
+                let visibleCount = 0;
+                suggestionButtons.forEach(button => {
+                    const isVisible = button.dataset.name.toLowerCase().includes(query);
+                    button.parentElement.hidden = !isVisible;
+                    if (isVisible) visibleCount += 1;
+                });
+                suggestions.hidden = visibleCount === 0;
+                locationSearch.setAttribute('aria-expanded', suggestions.hidden ? 'false' : 'true');
+            }
+            function selectLocation(button, pushHistory) {
+                locationValue.value = button.dataset.slug;
+                locationSearch.value = button.dataset.slug ? button.dataset.name : '';
+                clearLocation.classList.toggle('hidden', !locationValue.value);
+                hideSuggestions();
+                loadOffers(pushHistory);
+            }
+            function updateCategoryTabs() {
+                const tabs = Array.from(categoryTabs.querySelectorAll('.category-tab'));
+                let activeTab = null;
+
+                tabs.forEach(tab => {
+                    const isActive = tab.dataset.slug === categoryValue.value;
+                    tab.classList.toggle('is-active', isActive);
+                    if (isActive) activeTab = tab;
+                });
+
+                if (activeTab) categoryTabs.prepend(activeTab);
+            }
+
+            clearLocation.addEventListener('click', () => {
+                locationValue.value = '';
+                locationSearch.value = '';
+                clearLocation.classList.add('hidden');
+                hideSuggestions();
+                loadOffers(true);
+            });
+
+            categoryTabs.addEventListener('click', e => {
+                const tab = e.target.closest('.category-tab');
+                if (!tab) return;
+
+                categoryValue.value = e.target.closest('[data-action="clear-category"]') ? '' : tab.dataset.slug;
+                updateCategoryTabs();
+                loadOffers(true);
+            });
+
+            suggestionButtons.forEach(btn => btn.addEventListener('click', () => selectLocation(btn, true)));
+            locationSearch.addEventListener('focus', () => { filterSuggestions(); showSuggestions(); });
+            locationSearch.addEventListener('input', () => {
+                locationValue.value = '';
+                clearLocation.classList.add('hidden');
+                filterSuggestions();
+            });
+            locationSearch.addEventListener('keydown', e => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const firstVisible = suggestionButtons.find(btn => !btn.parentElement.hidden);
+                    if (firstVisible) selectLocation(firstVisible, true);
+                }
+                if (e.key === 'Escape') hideSuggestions();
+            });
+            document.addEventListener('click', e => { if (!locationControl.contains(e.target)) hideSuggestions(); });
+            locationSearch.addEventListener('search', () => {
+                if (!locationSearch.value) {
+                    locationValue.value = '';
+                    clearLocation.classList.add('hidden');
+                    loadOffers(true);
+                }
+            });
+            locationSearch.addEventListener('blur', () => {
+                window.setTimeout(() => {
+                    const selectedButton = suggestionButtons.find(btn => btn.dataset.slug === locationValue.value);
+                    locationSearch.value = selectedButton && selectedButton.dataset.slug ? selectedButton.dataset.name : '';
+                }, 150);
+            });
+            locationValue.addEventListener('change', () => loadOffers(true));
+            form.addEventListener('submit', e => { if (status.textContent !== 'Failed. Press Enter.') e.preventDefault(); });
+            window.addEventListener('popstate', () => {
+                const params = new URLSearchParams(window.location.search);
+                locationValue.value = params.get('location') || '';
+                categoryValue.value = params.get('category') || '';
+                clearLocation.classList.toggle('hidden', !locationValue.value);
+                const selectedButton = suggestionButtons.find(btn => btn.dataset.slug === locationValue.value);
+                locationSearch.value = selectedButton && selectedButton.dataset.slug ? selectedButton.dataset.name : '';
+                updateCategoryTabs();
+                loadOffers(false);
+            });
+        })();
+    </script>
+</body>
+</html>

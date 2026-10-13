@@ -1,0 +1,67 @@
+<div class="mb-5">
+    <h2 class="m-0 text-lg font-bold text-gray-900">
+        {{ businesses|length }} offers found{% if selected_location %} in {{ selected_location.name }}{% endif %}
+    </h2>
+</div>
+
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="offer-list" aria-live="polite" data-offer-count="{{ businesses|length }}">
+    {% for business in businesses %}
+        <article class="bg-white rounded-2xl shadow-sm border border-sky-100 overflow-hidden hover:shadow-lg transition duration-300 flex flex-col group">
+            <div class="w-full bg-sky-50 relative">
+                <div class="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory h-56 w-full cursor-pointer bg-sky-50" aria-label="{{ business.name }} offer images">
+                    {% for offer_image in business.offer_images.all %}
+                        <a class="h-56 {% if business.offer_images.all|length > 1 %}w-4/5{% else %}w-full{% endif %} flex-shrink-0 snap-center border-r border-sky-100 last:border-0 bg-sky-50" href="{% url 'business_detail' business.slug %}">
+                            <img class="w-full h-full object-cover lazy-image hover:opacity-90 transition" src="" data-src="{{ offer_image.image.url }}" alt="{{ business.name }} offer image {{ forloop.counter }}">
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <a class="p-4 pb-3 block cursor-pointer no-underline" href="{% url 'business_detail' business.slug %}">
+                <h2 class="m-0 text-lg font-bold text-gray-900 leading-tight group-hover:text-blue-700 transition">{{ business.name }}</h2>
+                <p class="m-0 text-gray-500 text-sm mt-1.5 line-clamp-2">
+                    <i class="fa-solid fa-location-dot text-cyan-600 mr-1.5"></i>{{ business.address }}
+                </p>
+            </a>
+
+            <nav class="px-4 pb-4 mt-auto flex overflow-x-auto scrollbar-hide gap-3" aria-label="{{ business.name }} actions">
+                <a class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-700 text-white rounded-full text-sm font-semibold whitespace-nowrap snap-start hover:bg-blue-800 transition shadow-md shadow-blue-900/10" href="tel:{{ business.phone }}">
+                    <i class="fa-solid fa-phone"></i> Call
+                </a>
+                
+                {% if business.whatsapp %}
+                    <a class="inline-flex items-center gap-2 px-5 py-2.5 bg-sky-50 text-gray-800 rounded-full text-sm font-semibold border border-sky-200 whitespace-nowrap snap-start hover:border-blue-300 hover:text-blue-700 hover:bg-blue-50 transition shadow-sm" href="https://wa.me/{{ business.whatsapp }}" target="_blank" rel="noopener">
+                        <i class="fa-brands fa-whatsapp text-green-500"></i> WhatsApp
+                    </a>
+                {% endif %}
+                
+                {% if business.website %}
+                    <a class="inline-flex items-center gap-2 px-5 py-2.5 bg-sky-50 text-gray-800 rounded-full text-sm font-semibold border border-sky-200 whitespace-nowrap snap-start hover:border-blue-300 hover:text-blue-700 hover:bg-blue-50 transition shadow-sm" href="{{ business.website }}" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-globe text-blue-500"></i> Website
+                    </a>
+                {% endif %}
+                
+                {% if business.fb_url %}
+                    <a class="inline-flex items-center gap-2 px-5 py-2.5 bg-sky-50 text-gray-800 rounded-full text-sm font-semibold border border-sky-200 whitespace-nowrap snap-start hover:border-blue-300 hover:text-blue-700 hover:bg-blue-50 transition shadow-sm" href="{{ business.fb_url }}" target="_blank" rel="noopener">
+                        <i class="fa-brands fa-facebook-f text-blue-600"></i> Facebook
+                    </a>
+                {% endif %}
+                
+                {% if business.ig_url %}
+                    <a class="inline-flex items-center gap-2 px-5 py-2.5 bg-sky-50 text-gray-800 rounded-full text-sm font-semibold border border-sky-200 whitespace-nowrap snap-start hover:border-blue-300 hover:text-blue-700 hover:bg-blue-50 transition shadow-sm" href="{{ business.ig_url }}" target="_blank" rel="noopener">
+                        <i class="fa-brands fa-instagram text-pink-600"></i> Instagram
+                    </a>
+                {% endif %}
+                
+                <a class="inline-flex items-center gap-2 px-5 py-2.5 bg-sky-50 text-gray-800 rounded-full text-sm font-semibold border border-sky-200 whitespace-nowrap snap-start hover:border-blue-300 hover:text-blue-700 hover:bg-blue-50 transition shadow-sm" href="https://www.google.com/maps/search/?api=1&query={{ business.address|urlencode }}" target="_blank" rel="noopener">
+                    <i class="fa-solid fa-map-location-dot text-cyan-600"></i> Directions
+                </a>
+            </nav>
+        </article>
+    {% empty %}
+        <div class="md:col-span-2 lg:col-span-3 bg-white border border-sky-100 rounded-2xl p-10 text-gray-500 text-center text-sm flex flex-col items-center justify-center gap-2">
+            <i class="fa-regular fa-folder-open text-sky-200 mb-2"></i>
+            <span>No active offers found for this location.</span>
+        </div>
+    {% endfor %}
+</section>
